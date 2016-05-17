@@ -78,16 +78,5 @@ class ClientController extends Controller
             echo json_encode($msg);
         endif;
 
-
-        /*
-        if(Client::find($id)->delete()):
-            $msg = ['error'=>'0','msg'=>'Cliente deletado com sucesso!',];
-            echo json_encode($msg);
-        else:
-            $msg = ['error'=>'1','msg'=>'Erro ao deletar Cliente!',];
-            echo json_encode($msg);
-        endif;
-        */
-
     }
 }
