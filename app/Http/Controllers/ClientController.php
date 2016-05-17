@@ -17,7 +17,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return \CodeProject\Client::all();
+        return Client::all();
     }
 
     /**
@@ -68,6 +68,26 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
+        $data = Client::find($id);
+        if($data):
+            $data->delete();
+            $msg = ['error'=>'0','msg'=>'Cliente deletado com sucesso!'];
+            echo json_encode($msg);
+        else:
+            $msg = ['error'=>'1','msg'=>'Erro ao deletar, cliente não encontrado!'];
+            echo json_encode($msg);
+        endif;
+
+
+        /*
+        if(Client::find($id)->delete()):
+            $msg = ['error'=>'0','msg'=>'Cliente deletado com sucesso!',];
+            echo json_encode($msg);
+        else:
+            $msg = ['error'=>'1','msg'=>'Erro ao deletar Cliente!',];
+            echo json_encode($msg);
+        endif;
+        */
+
     }
 }
