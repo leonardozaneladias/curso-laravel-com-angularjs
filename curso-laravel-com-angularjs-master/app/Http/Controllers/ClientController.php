@@ -2,29 +2,22 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ClientRepository;
-use CodeProject\Services\ClientService;
+use CodeProject\Client;
 use Illuminate\Http\Request;
+
+use CodeProject\Http\Requests;
+use CodeProject\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
-    private  $repository;
-    private  $service;
-
-    public function __construct(ClientRepository $repository, ClientService $service)
-    {
-        $this->repository = $repository;
-        $this->service = $service;
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientRepository $repository)
+    public function index()
     {
-        return $this->repository->all();
+        return Client::all();
     }
 
     /**
@@ -35,7 +28,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->service->create($request->all());
+        return Client::create($request->all());
+
     }
 
     /**
@@ -46,7 +40,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        return Client::find($id);
     }
 
     /**
@@ -59,7 +53,10 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
 
-        return $this->service->update($request->all(), $id);
+        $input = $request->all();
+        $data = Client::findOrFail($id);
+        $data->update($input);
+        return $data;
 
     }
 
@@ -71,7 +68,15 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        return $this->service->destroy($id);
+        $data = Client::find($id);
+        if($data):
+            $data->delete();
+            $msg = ['error'=>'0','msg'=>'Cliente deletado com sucesso!'];
+            echo json_encode($msg);
+        else:
+            $msg = ['error'=>'1','msg'=>'Erro ao deletar, cliente não encontrado!'];
+            echo json_encode($msg);
+        endif;
 
     }
 }

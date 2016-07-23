@@ -137,8 +137,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        Prettus\Repository\Providers\RepositoryServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
@@ -146,7 +144,6 @@ return [
         CodeProject\Providers\AuthServiceProvider::class,
         CodeProject\Providers\EventServiceProvider::class,
         CodeProject\Providers\RouteServiceProvider::class,
-        CodeProject\Providers\CodeProjectRepositoryProvider::class,
 
     ],
 

@@ -2,16 +2,16 @@
 
 /*
 |--------------------------------------------------------------------------
-| Entities Factories
+| Model Factories
 |--------------------------------------------------------------------------
 |
-| Here you may define all of your model factories. Entities factories give
+| Here you may define all of your model factories. Model factories give
 | you a convenient way to create models for testing and seeding your
 | database. Just tell the factory how a default model should look.
 |
 */
 
-$factory->define(CodeProject\Entities\User::class, function (Faker\Generator $faker) {
+$factory->define(CodeProject\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
@@ -21,7 +21,7 @@ $factory->define(CodeProject\Entities\User::class, function (Faker\Generator $fa
 });
 
 
-$factory->define(CodeProject\Entities\Client::class, function (Faker\Generator $faker) {
+$factory->define(CodeProject\Client::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'responsible' => $faker->name,
