@@ -1,3 +1,6 @@
 .env
 vendor/
 .idea/
+resources/bower_components
+node_modules/
+scafold-master/

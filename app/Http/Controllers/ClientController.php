@@ -22,7 +22,7 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientRepository $repository)
+    public function index()
     {
         return $this->repository->all();
     }
@@ -58,7 +58,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         return $this->service->update($request->all(), $id);
 
     }
