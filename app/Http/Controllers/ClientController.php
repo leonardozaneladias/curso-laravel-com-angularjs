@@ -4,6 +4,7 @@ namespace CodeProject\Http\Controllers;
 
 use CodeProject\Repositories\ClientRepository;
 use CodeProject\Services\ClientService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -46,7 +47,15 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+
+        try {
+            return $this->repository->find($id);
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'msg' => 'Erro, Cliente não encontrado.'];
+        } catch (\Exception $e) {
+            return ['error'=>true, 'msg' => 'Erro, não foi possivel selecionar o Cliente.'];
+        }
+
     }
 
     /**
@@ -58,7 +67,15 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->service->update($request->all(), $id);
+
+        try {
+            return $this->service->update($request->all(), $id);
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'msg' =>  'Erro! Cliente não pode ser atualizado porque não existe!'];
+        } catch (\Exception $e) {
+            return ['error'=>true, 'msg' =>  'Erro! não foi possivel atualizar o Cliente!'];
+        }
+
 
     }
 

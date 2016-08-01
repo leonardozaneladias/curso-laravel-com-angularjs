@@ -10,6 +10,7 @@ namespace CodeProject\Services;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 
@@ -60,16 +61,16 @@ class ProjectService
 
     public function destroy($id)
     {
-        try{
+
+        try {
             $this->repository->delete($id);
-            return [
-                'delete' => true
-            ];
-        }catch (ModelNotFoundException $e){
-            return [
-                'error' => true,
-                'message' => $e->getMessage()
-            ];
+            return ['success'=>true, 'msg' => 'Projeto deletado com sucesso!'];
+        } catch (QueryException $e) {
+            return ['error'=>true,'msg' =>  'Projeto não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true,'msg' =>  'Projeto não encontrado.'];
+        } catch (\Exception $e) {
+            return ['error'=>true,'msg' =>  'Ocorreu algum erro ao excluir o projeto.'];
         }
 
     }

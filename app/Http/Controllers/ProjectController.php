@@ -5,6 +5,7 @@ namespace CodeProject\Http\Controllers;
 
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ProjectService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
@@ -51,7 +52,15 @@ class ProjectController extends Controller
         if($this->checkProjectPermissions($id) == false){
             return ['error' => 'Access forbidden'];
         }
-        return $this->repository->find($id);
+
+        try {
+            return $this->repository->find($id);
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'msg' => 'Erro, não foi possivel selecionar o projeto.'];
+        } catch (\Exception $e) {
+            return ['error'=>true, 'msg' => 'Erro, projeto não encontrado.'];
+        }
+
     }
 
     /**
@@ -66,7 +75,15 @@ class ProjectController extends Controller
         if($this->checkProjectOwner($id) == false){
             return ['error' => 'Access forbidden'];
         }
-        return $this->service->update($request->all(), $id);
+
+
+        try {
+            return $this->service->update($request->all(), $id);
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'msg' =>  'Erro! não foi possivel atualizar seu Projeto!'];
+        } catch (\Exception $e) {
+            return ['error'=>true, 'msg' =>  'Erro! Projeto não pode ser atualizado porque não existe!'];
+        }
 
     }
 
@@ -81,6 +98,7 @@ class ProjectController extends Controller
         if($this->checkProjectOwner($id) == false){
             return ['error' => 'Access forbidden'];
         }
+
         return $this->service->destroy($id);
 
     }

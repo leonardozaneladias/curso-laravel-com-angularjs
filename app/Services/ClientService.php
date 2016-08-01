@@ -11,6 +11,7 @@ namespace CodeProject\Services;
 use CodeProject\Repositories\ClientRepository;
 use CodeProject\Validators\ClientValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -55,16 +56,15 @@ class ClientService
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->repository->delete($id);
-            return [
-                'delete' => true
-            ];
-        }catch (ModelNotFoundException $e){
-            return [
-                'error' => true,
-                'message' => $e->getMessage()
-            ];
+            return ['success'=>true, 'msg' => 'Cliente deletado com sucesso!'];
+        } catch (QueryException $e) {
+            return ['error'=>true,'msg' =>  'Cliente não pode ser apagado pois existe um ou mais projetos vinculados a ele.'];
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true,'msg' =>  'Cliente não encontrado.'];
+        } catch (\Exception $e) {
+            return ['error'=>true,'msg' =>  'Ocorreu algum erro ao excluir o Cliente.'];
         }
 
     }
