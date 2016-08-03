@@ -75,16 +75,37 @@ class ProjectService
 
     }
 
-
     public function createFile(array $data)
     {
 
-        $project = $this->repository->skipPresenter()->find($data['project_id']);;
+        $project = $this->repository->skipPresenter()->find($data['project_id']);
         $projectFile = $project->files()->create($data);
 
         $this->storage->put($projectFile->id .".". $data['extension'], $this->filesystem->get($data['file']));
 
+    }
 
+    public function addMember(array $data)
+    {
+        $project = $this->repository->skipPresenter()->find($data['project_id']);
+        return $project->members()->create($data);
+    }
+
+    public function removeMember(array $data)
+    {
+        $project = $this->repository->skipPresenter()->find($data['project_id']);
+        return $project->members()->delete($data);
+    }
+
+    public function isMember($memberId)
+    {
+        $project = $this->repository->skipPresenter()->find($data['project_id']);
+
+        if($project->members()->findWhere(['member_id' => $memberId])){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

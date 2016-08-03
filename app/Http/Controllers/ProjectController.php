@@ -104,6 +104,14 @@ class ProjectController extends Controller
     }
 
 
+    public function members($id)
+    {
+        $project = $this->repository->skipPresenter()->find($id);
+        return $project->members;
+
+    }
+
+
 
     /*
      * PRIVATES FUNCTIONS

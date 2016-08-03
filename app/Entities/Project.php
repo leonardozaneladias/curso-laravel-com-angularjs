@@ -20,12 +20,10 @@ class Project extends Model implements Transformable
         'due_date'
     ];
 
-
     public function notes()
     {
         return $this->hasMany(ProjectNotes::class);
     }
-
 
     public function members()
     {
